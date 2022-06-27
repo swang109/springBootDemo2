@@ -8,8 +8,8 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "user")
-public class User implements Serializable {
+@Table(name = "customer")
+public class Customer implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     private String username;
@@ -21,7 +21,7 @@ public class User implements Serializable {
     public String getUsername() {
         return username;
     }
-    public User setUsername(String username) {
+    public Customer setUsername(String username) {
         this.username = username;
         return this;
     }
@@ -30,7 +30,7 @@ public class User implements Serializable {
         return password;
     }
 
-    public User setPassword(String password) {
+    public Customer setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -39,7 +39,7 @@ public class User implements Serializable {
         return enabled;
     }
 
-    public User setEnabled(boolean enabled) {
+    public Customer setEnabled(boolean enabled) {
         this.enabled = enabled;
         return this;
     }

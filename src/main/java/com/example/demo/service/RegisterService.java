@@ -2,12 +2,11 @@ package com.example.demo.service;
 
 import com.example.demo.exception.UserAlreadyExistException;
 import com.example.demo.model.Authority;
-import com.example.demo.model.User;
+import com.example.demo.model.Customer;
 import com.example.demo.model.UserRole;
 import com.example.demo.repository.AuthorityRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,25 +16,26 @@ public class RegisterService {
     private UserRepository userRepository;
     private AuthorityRepository authorityRepository;
 
-    private PasswordEncoder passwordEncoder;
-
     @Autowired
-    public RegisterService(UserRepository userRepository, AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder) {
+    public RegisterService(UserRepository userRepository, AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     //Transactional make the insert operations to user and authority tables will succeed together, or fail together.
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void add(User user, UserRole role) {
-        if (userRepository.existsById(user.getUsername())) {
+    public void add(Customer customer, UserRole role) {
+        if (userRepository.existsById(customer.getUsername())) {
             throw new UserAlreadyExistException("User already exists");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setEnabled(true);
+        customer.setPassword(customer.getPassword());
+        customer.setEnabled(true);
 
-        userRepository.save(user);
-        authorityRepository.save(new Authority(user.getUsername(), role.name()));
+        userRepository.save(customer);
+        authorityRepository.save(new Authority(customer.getUsername(), role.name()));
+    }
+
+    public String retrieve(String username) {
+        return userRepository.findById(username).get().getUsername();
     }
 }
