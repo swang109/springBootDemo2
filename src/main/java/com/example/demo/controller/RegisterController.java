@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class RegisterController {
     private RegisterService registerService;
@@ -26,6 +28,11 @@ public class RegisterController {
     @GetMapping("/customer")
     public String retrieveCustomer(String username) {
         return registerService.retrieve(username);
+    }
+
+    @GetMapping("/customers")
+    public List<Customer> retrieveAllCustomer() {
+        return registerService.retrieveAll();
     }
 
     @PostMapping("/register/host")

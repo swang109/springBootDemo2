@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class RegisterService {
     private UserRepository userRepository;
@@ -37,5 +39,9 @@ public class RegisterService {
 
     public String retrieve(String username) {
         return userRepository.findById(username).get().getUsername();
+    }
+
+    public List<Customer> retrieveAll() {
+        return userRepository.findAll();
     }
 }
